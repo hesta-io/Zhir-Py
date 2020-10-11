@@ -9,4 +9,4 @@ preprocess module for zhir-ocr project
 1. `pipenv install` command to fetch project packages
 
 # Further Readings 
-refer to this url for more details (https://pipenv-fork.readthedocs.io/en/latest/basics.html)[https://pipenv-fork.readthedocs.io/en/latest/basics.html]
+refer to this url for more details [https://pipenv-fork.readthedocs.io/en/latest/basics.html](https://pipenv-fork.readthedocs.io/en/latest/basics.html)
