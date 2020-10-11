@@ -6,4 +6,7 @@ preprocess module for zhir-ocr project
 1. packages for python is located at `https://pypi.org/` which is like npmjs for nodejs 
 1. python projects have no file called package.json we must use extra packages the most populer one is called `pipenv` which is used just like `pip` which created `pipfile`
 1. `pipenv` is an execultable which must be avilable in `Path` enviroment variable there is something called `USER_BASE` directory for me it was `C:\Users\aram\AppData\Roaming\Python\Python38\Scripts`
-1. ithink you must run `pipenv install` command to fetch project packages
+1. `pipenv install` command to fetch project packages
+
+# Further Readings 
+refer to this url for more details (https://pipenv-fork.readthedocs.io/en/latest/basics.html)[https://pipenv-fork.readthedocs.io/en/latest/basics.html]
