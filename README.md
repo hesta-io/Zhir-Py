@@ -7,8 +7,8 @@ Preprocess module for zhir-ocr project
 1. Install Python3: `sudo apt install python3`
 1. Install pipenv: `sudo apt install pipenv`
 1. Install dependencies: `pipenv install`
-1. Install PyQt5: `pipenv run pip3 install PyQt5`
-1. Run the script: `pipenv run python3 ./pre-process.py -i ./images/1.jpg -o result.jpg`
+1. Install PyQt5: `pipenv run pip install PyQt5`
+1. Run the script: `pipenv run python ./pre-process.py -i ./images/1.jpg -o result.jpg`
 
 ## Further Readings
 
