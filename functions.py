@@ -45,7 +45,7 @@ def preprocess(input_file, output_file):
     imgPath = input_file
     img = io.imread(imgPath, as_gray=True)
     # binarize input image and apply local theresould
-    adaptiveThresh = filters.thresholding.threshold_sauvola(img,window_size=71 )
+    adaptiveThresh = filters.thresholding.threshold_sauvola(img, r=0.2)
     binarizedImage = img >= adaptiveThresh
 
     # Fixing document skew
