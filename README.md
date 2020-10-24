@@ -7,5 +7,15 @@ preprocess module for zhir-ocr project
 1. python projects have no file called package.json we must use extra packages the most populer one is called `requiremnts.txt` which is used just like 
 1. ` pip install -r requirements.txt --no-index` command to fetch project packages
 
-# Further Readings 
-refer to this url for more details [https://pipenv-fork.readthedocs.io/en/latest/basics.html](https://pipenv-fork.readthedocs.io/en/latest/basics.html)
+
+## How to install [MUHAMMAD]
+
+1. Install Python3: `sudo apt install python3`
+1. Install pipenv: `sudo apt install pipenv`
+1. Install dependencies: `pipenv install`
+1. Install PyQt5: `pipenv run pip install PyQt5`
+1. Run the script: `pipenv run python ./pre-process.py -i ./images/1.jpg -o result.jpg`
+
+## Further Readings
+
+Refer to this url for more details [https://pipenv-fork.readthedocs.io/en/latest/basics.html](https://pipenv-fork.readthedocs.io/en/latest/basics.html)
