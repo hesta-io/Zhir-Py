@@ -4,7 +4,12 @@ from skimage.feature import canny
 from skimage.transform import probabilistic_hough_line, rotate
 import numpy as np
 import os
-
+from skimage import io
+from skimage import filters
+from skimage import transform
+from skimage import color
+from skimage import viewer
+from skimage import util
 def deskew(image):
     #threshold to get rid of extraneous noise
     thresh = threshold_otsu(image)
@@ -34,3 +39,20 @@ def deskew(image):
     elif rotation_number < -45:
         rotation_number = 90 - abs(rotation_number)
     return rotation_number
+
+def preprocess(input_file, output_file):
+    # imgPath = "./images/5-rotated.jpg"
+    imgPath = input_file
+    img = io.imread(imgPath, as_gray=True)
+    # binarize input image and apply local theresould
+    adaptiveThresh = filters.thresholding.threshold_sauvola(img,window_size=71 )
+    binarizedImage = img >= adaptiveThresh
+
+    # Fixing document skew
+    # rotationAngle = deskew(binarizedImage)
+    # fixedImage = transform.rotate(binarizedImage, rotationAngle, cval=1, mode="constant")
+    # finalImage =  fixedImage * 255
+    # vv = viewer.ImageViewer(binarizedImage)
+    # vv.show()
+    # io.imsave(output_file,finalImage)
+    io.imsave(output_file,util.dtype.img_as_ubyte(binarizedImage) )
