@@ -8,8 +8,3 @@ preprocess module for zhir-ocr project
 1. check and install ``poetry`` from here https://python-poetry.org/
 1. to install dependencies ``poetry install ``
 1. to run any file call ``poetry run python3 test.py`` for example 
-
-
-## Further Readings
-
-Refer to this url for more details [https://pipenv-fork.readthedocs.io/en/latest/basics.html](https://pipenv-fork.readthedocs.io/en/latest/basics.html)
