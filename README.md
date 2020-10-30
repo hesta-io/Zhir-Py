@@ -1,10 +1,24 @@
-# ocr-preprocess
-Preprocess module for zhir-ocr project
-# How to install
-1. Install latest python version mine is 3.8 or 3.7 
-1. Package manager for python is called `pip` but we have `poetry` also 
-1. Packages for python is located at `https://pypi.org/` which is like npmjs for nodejs 
-1. Python projects have no file called package.json we must use extra packages a populer one called ``poetry``
-1. Check and install ``poetry`` from here https://python-poetry.org/
-1. To install dependencies ``poetry install ``
-1. To run any file call ``poetry run python test.py`` for example. Make sure you're inside the scripts' directory when trying to run it.
+# ZhirPy
+
+This repository contains all python scripts used by ZhirOCR. The scripts need python 3.5 or newer.
+
+## Install dependencies:
+
+`requirements.txt` contains all of the required packages:
+
+```
+python3 -m pip install -r .\requirements.txt
+```
+
+## Help
+
+All of the scripts provide their own help guide. Just run the script with `-h` flag. Example:
+
+```
+python3 ./src/clean.py -h
+```
+
+```
+python3 ./src/tess.py -h
+```
+
