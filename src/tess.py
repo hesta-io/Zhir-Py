@@ -19,24 +19,24 @@ parser.add_argument(
     "dest", help="The destination path of the result.")
 
 parser.add_argument(
-    "--format", help="Result format.", choices=["pdf", "text"], default="pdf"
+    "--lang", help="Language models to be used for the OCR. Examples: ckb or ckb+eng", default="ckb"
 )
 
 args = parser.parse_args()
 
-if format == 'text':
+if str.endswith(args.dest, ".txt"):
     result = pytesseract.image_to_string(
-        Image.open(args.source), lang='ckb')
-    with open(args.dest, "w") as f:
+        Image.open(args.source), lang=args.lang)
+    with open(args.dest, "w", encoding="utf-8") as f:
         f.write(result)
     print("Done :)")
 
-elif format == 'pdf':
+elif str.endswith(args.dest, ".pdf"):
     pdf = pytesseract.image_to_pdf_or_hocr(
-        args.source, extension='pdf', lang='ckb')
+        args.source, extension='pdf', lang=args.lang)
     with open(args.dest, 'w+b') as f:
         f.write(pdf)  # pdf type is bytes by default
     print("Done :)")
 else:
-    print("lol wut?")
+    print("Invalid format.")
     sys.exit(-1)
