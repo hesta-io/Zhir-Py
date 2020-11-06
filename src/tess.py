@@ -17,7 +17,7 @@ parser.add_argument(
     "source", help="The path for the source image.")
 
 parser.add_argument(
-    "dest", help="The destination path of the result. Two files will be created: dest.pdf and dest.txt")
+    "dest", help="The destination folder of the result. Two files will be created: result.pdf and result.txt")
 
 parser.add_argument(
     "--langs", help="Language models to be used for the OCR. Examples: ckb or ckb+eng", default="ckb"
@@ -25,11 +25,11 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-pdf_path = args.dest + '.pdf'
-text_path = args.dest + '.txt'
+pdf_path = args.dest + '/result.pdf'
+text_path = args.dest + '/result.txt'
 
 pdf = pytesseract.image_to_pdf_or_hocr(
-        args.source, extension='pdf', lang=args.langs, config = 'out pdf txt')
+        args.source, extension='pdf', lang=args.langs)
 with open(pdf_path, 'w+b') as f:
     f.write(pdf)  # pdf type is bytes by default
 
