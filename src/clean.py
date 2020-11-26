@@ -61,7 +61,7 @@ def isScreenshot(image):
     maxValue = np.max(histUnit)
     spikesFilter = histUnit >= (maxValue / 2)
     spikes = histUnit[spikesFilter]
-    if len(spikes) > 3:
+    if len(spikes) > 1:
         return False
     else:
         return True
