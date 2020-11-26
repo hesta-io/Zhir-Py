@@ -79,7 +79,7 @@ img = io.imread(args.source, as_gray=True)
 
 if(isScreenshot(img)): 
     io.imsave(args.dest, img)
-:else
+else:
     # Binarize input image and apply local theresould
     adaptiveThresh = filters.thresholding.threshold_sauvola(img, r=0.2)
 
