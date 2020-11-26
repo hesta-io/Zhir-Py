@@ -81,13 +81,12 @@ args = parser.parse_args()
 img = io.imread(args.source, as_gray=True)
 
 if isScreenshot(img):
-    os.makedirs(os.path.dirname(args.dest), exist_ok=True)
-    shutil.copy(args.source, args.dest)
+    io.imsave(args.dest, img)
 
     print("DID NOT CLEAN")
 else:
     # Binarize input image and apply local theresould
-    adaptiveThresh = filters.thresholding.threshold_sauvola(img, r=0.2)
+    adaptiveThresh = filters.thresholding.threshold_sauvola(img, r=0.1)
 
     binarizedImage = img >= adaptiveThresh
 
