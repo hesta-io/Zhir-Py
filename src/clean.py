@@ -87,7 +87,7 @@ if isScreenshot(img):
     print("DID NOT CLEAN")
 else:
     # Binarize input image and apply local theresould
-    adaptiveThresh = filters.thresholding.threshold_sauvola(img, r=0.2, window_size=11) # this current method gives far better results
+    adaptiveThresh = filters.thresholding.threshold_sauvola(img, r=0.5, window_size=21) # this current method gives far better results
     # adaptiveThresh = filters.threshold_local(img, block_size = 11 , offset = 0.05, method = "mean")
 
     binarizedImage = img >= adaptiveThresh
@@ -97,6 +97,7 @@ else:
     fixedImage = transform.rotate(
         binarizedImage, rotationAngle, cval=1, mode="constant"
     )
+    
 
     # Save result
     io.imsave(args.dest, fixedImage)
