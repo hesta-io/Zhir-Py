@@ -1,6 +1,6 @@
 # - https://scikit-image.org/docs/dev/
 # - argparse: https://docs.python.org/3/library/argparse.html
-
+import cv2
 from skimage.filters import gaussian, threshold_otsu
 from skimage.feature import canny
 from skimage.transform import probabilistic_hough_line, rotate
@@ -9,7 +9,6 @@ from skimage import filters
 from skimage import transform
 from skimage import util
 from skimage import exposure
-import argparse
 import numpy as np
 import shutil
 import os
@@ -68,46 +67,36 @@ def isScreenshot(image):
         return True
 
 
-parser = argparse.ArgumentParser(
-    description="Pre-processes an image and prepares it for OCR."
-)
+def clean(source, dest):
+    # Read source image
+    img = cv2.imread(source, 0)
+    avg = img.mean(axis=0).mean(axis=0)
 
-parser.add_argument("source", help="The path for the source image.")
+    if avg < 0.5:
+        # Images whith black background should NOT be cleaned
+        directory = os.path.dirname(dest)
+        if len(directory) > 0:
+            os.makedirs(directory, exist_ok=True)
+        shutil.copy(source, dest)
 
-parser.add_argument("dest", help="The path for the cleaned-up image.")
+        print("DID NOTHING")
+    elif isScreenshot(img):
+        io.imsave(dest, img)
 
-args = parser.parse_args()
+        print("JUST GRAYSCALE")
+    else:
+        # Binarize input image and apply local theresould
+        binarized = cv2.adaptiveThreshold(
+            img, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 13, 10
+        )
+        binarizedImage = binarized
 
-# Read source image
-img = io.imread(args.source, as_gray=True)
-avg = img.mean(axis=0).mean(axis=0)
+        # Fix document skew
+        rotationAngle = deskew(binarizedImage)
+        fixedImage = transform.rotate(
+            binarizedImage, rotationAngle, cval=1, mode="constant"
+        )
 
-if avg < 0.5:
-    # Images whith black background should NOT be cleaned
-    directory = os.path.dirname(args.dest)
-    if len(directory) > 0:
-        os.makedirs(directory, exist_ok=True)
-    shutil.copy(args.source, args.dest)
-
-    print("DID NOTHING")
-elif isScreenshot(img):
-    io.imsave(args.dest, img)
-
-    print("JUST GRAYSCALE")
-else:
-    # Binarize input image and apply local theresould
-    adaptiveThresh = filters.thresholding.threshold_sauvola(img, r=0.5, window_size=21) # this current method gives far better results
-    # adaptiveThresh = filters.threshold_local(img, block_size = 11 , offset = 0.05, method = "mean")
-
-    binarizedImage = img >= adaptiveThresh
-
-    # Fix document skew
-    rotationAngle = deskew(binarizedImage)
-    fixedImage = transform.rotate(
-        binarizedImage, rotationAngle, cval=1, mode="constant"
-    )
-    
-
-    # Save result
-    io.imsave(args.dest, fixedImage)
-    print("CLEANED")
+        # Save result
+        io.imsave(dest, fixedImage)
+        print("CLEANED")
