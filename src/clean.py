@@ -1,4 +1,4 @@
-import lib
+import zhirpy
 import argparse
 
 parser = argparse.ArgumentParser(
@@ -11,4 +11,4 @@ parser.add_argument("dest", help="The path for the cleaned-up image.")
 
 args = parser.parse_args()
 
-lib.clean(args.source, args.dest)
+zhirpy.clean(args.source, args.dest)
