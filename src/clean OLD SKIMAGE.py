@@ -1,6 +1,6 @@
 # - https://scikit-image.org/docs/dev/
 # - argparse: https://docs.python.org/3/library/argparse.html
-import cv2 
+
 from skimage.filters import gaussian, threshold_otsu
 from skimage.feature import canny
 from skimage.transform import probabilistic_hough_line, rotate
@@ -79,7 +79,7 @@ parser.add_argument("dest", help="The path for the cleaned-up image.")
 args = parser.parse_args()
 
 # Read source image
-img = cv2.imread(args.source, 0 )
+img = io.imread(args.source, as_gray=True)
 avg = img.mean(axis=0).mean(axis=0)
 
 if avg < 0.5:
@@ -96,8 +96,10 @@ elif isScreenshot(img):
     print("JUST GRAYSCALE")
 else:
     # Binarize input image and apply local theresould
-    binarized = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY,13,10)
-    binarizedImage = binarized
+    adaptiveThresh = filters.thresholding.threshold_sauvola(img, r=0.5, window_size=21) # this current method gives far better results
+    # adaptiveThresh = filters.threshold_local(img, block_size = 11 , offset = 0.05, method = "mean")
+
+    binarizedImage = img >= adaptiveThresh
 
     # Fix document skew
     rotationAngle = deskew(binarizedImage)
