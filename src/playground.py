@@ -3,27 +3,21 @@ import cv2
 import numpy as np
 from skimage import io
 
-img = cv2.imread('../images/table-1.jpg', 0)
-# io.imsave('./before.jpg', img)
+img = cv2.imread('../images/wraped4.jpg', 0)
 
-after = cv2.fastNlMeansDenoising(img,None,10,7,21)
+def shadow_remove(img):
+    rgb_planes = cv2.split(img)
+    result_norm_planes = []
+    for plane in rgb_planes:
+        dilated_img = cv2.dilate(plane, np.ones((7,7), np.uint8))
+        bg_img = cv2.medianBlur(dilated_img, 21)
+        diff_img = 255 - cv2.absdiff(plane, bg_img)
+        norm_img = cv2.normalize(diff_img,None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8UC1)
+        result_norm_planes.append(norm_img)
+    shadowremov = cv2.merge(result_norm_planes)
+    return shadowremov
 
-row, col = after.shape[:2]
-bottom = after[row-2:row, 0:col]
-mean = cv2.mean(bottom)[0]
-
-bordersize = 10
-after = cv2.copyMakeBorder(
-    after,
-    top=bordersize,
-    bottom=bordersize,
-    left=bordersize,
-    right=bordersize,
-    borderType=cv2.BORDER_CONSTANT,
-    value=0
-)
-
-
+after  = shadow_remove(img)
 cv2.imshow("before",   cv2.resize(img, (540 , 960 )) ) 
 cv2.imshow("after",  cv2.resize(after, (540, 960 )) ) 
 cv2.waitKey(0)

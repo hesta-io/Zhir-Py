@@ -46,6 +46,17 @@ def deskew(image):
         rotation_number = 90 - abs(rotation_number)
     return rotation_number
 
+def removeShadows(img):
+    rgb_planes = cv2.split(img)
+    result_norm_planes = []
+    for plane in rgb_planes:
+        dilated_img = cv2.dilate(plane, np.ones((7,7), np.uint8))
+        bg_img = cv2.medianBlur(dilated_img, 21)
+        diff_img = 255 - cv2.absdiff(plane, bg_img)
+        norm_img = cv2.normalize(diff_img,None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8UC1)
+        result_norm_planes.append(norm_img)
+    shadowremov = cv2.merge(result_norm_planes)
+    return shadowremov
 
 # below function will check if the input image is a screenshot or not
 # by looking at histogram spikes if there exisit more than 2 spikes that are
@@ -85,6 +96,9 @@ def addBorders(img):
 def clean(source, dest):
     # Read source image
     img = cv2.imread(source, 0)
+    
+    # remove shadows
+    img = removeShadows(img)
     # denoise the image
     img =  cv2.fastNlMeansDenoising(img,None,10,7,21)
     
