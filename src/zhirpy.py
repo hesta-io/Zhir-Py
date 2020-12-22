@@ -66,10 +66,28 @@ def isScreenshot(image):
     else:
         return True
 
+def addBorders(img):
+    row, col = img.shape[:2]
+    bottom = img[row-2:row, 0:col]
+
+    bordersize = 10
+    borderedImage = cv2.copyMakeBorder(
+        img,
+        top=bordersize,
+        bottom=bordersize,
+        left=bordersize,
+        right=bordersize,
+        borderType=cv2.BORDER_CONSTANT,
+        value=0
+    )
+    return borderedImage
 
 def clean(source, dest):
     # Read source image
     img = cv2.imread(source, 0)
+    # denoise the image
+    img =  cv2.fastNlMeansDenoising(img,None,10,7,21)
+    
     avg = img.mean(axis=0).mean(axis=0)
 
     if avg < 0.5:
@@ -90,12 +108,12 @@ def clean(source, dest):
             img, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 13, 10
         )
         binarizedImage = binarized
-
         # Fix document skew
         rotationAngle = deskew(binarizedImage)
         fixedImage = transform.rotate(
             binarizedImage, rotationAngle, cval=1, mode="constant"
         )
+        fixedImage = addBorders(fixedImage)
 
         # Save result
         io.imsave(dest, fixedImage)
