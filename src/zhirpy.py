@@ -98,9 +98,9 @@ def clean(source, dest):
     img = cv2.imread(source, 0)
     
     # remove shadows
-    img = removeShadows(img)
+    # img = removeShadows(img)
     # denoise the image
-    img =  cv2.fastNlMeansDenoising(img,None,10,7,21)
+    # img =  cv2.fastNlMeansDenoising(img,None,10,7,21)
     
     avg = img.mean(axis=0).mean(axis=0)
 
@@ -127,7 +127,7 @@ def clean(source, dest):
         fixedImage = transform.rotate(
             binarizedImage, rotationAngle, cval=1, mode="constant"
         )
-        fixedImage = addBorders(fixedImage)
+        # fixedImage = addBorders(fixedImage)
 
         # Save result
         io.imsave(dest, fixedImage)
