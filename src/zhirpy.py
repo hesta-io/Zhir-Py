@@ -97,11 +97,6 @@ def clean(source, dest):
     # Read source image
     img = cv2.imread(source, 0)
     
-    # remove shadows
-    # img = removeShadows(img)
-    # denoise the image
-    # img =  cv2.fastNlMeansDenoising(img,None,10,7,21)
-    
     avg = img.mean(axis=0).mean(axis=0)
 
     if avg < 0.5:
@@ -117,18 +112,25 @@ def clean(source, dest):
 
         print("JUST GRAYSCALE")
     else:
+        # remove shadows
+        img = removeShadows(img)
+        
+        # denoise the image
+        img =  cv2.fastNlMeansDenoising(img,None,10,7,21)
+        
         # Binarize input image and apply local theresould
-        binarized = cv2.adaptiveThreshold(
-            img, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 13, 10
-        )
-        binarizedImage = binarized
+        # binarized = cv2.adaptiveThreshold(
+        #     img, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 13, 10
+        # )
+        # binarizedImage = binarized
         # Fix document skew
-        rotationAngle = deskew(binarizedImage)
-        fixedImage = transform.rotate(
-            binarizedImage, rotationAngle, cval=1, mode="constant"
-        )
+        # rotationAngle = deskew(binarizedImage)
+        # fixedImage = transform.rotate(
+        #     binarizedImage, rotationAngle, cval=1, mode="constant"
+        # )
         # fixedImage = addBorders(fixedImage)
 
         # Save result
-        io.imsave(dest, fixedImage)
+        # io.imsave(dest, fixedImage)
+        io.imsave(dest, img)
         print("CLEANED")
