@@ -2,6 +2,8 @@
 
 This repository contains all python scripts used by ZhirOCR. The scripts need python 3.5 or newer.
 
+<img src="https://media2.giphy.com/media/naxep4vNBAOL6/giphy.gif" />
+
 ## Install dependencies:
 
 `requirements.txt` contains all of the required packages:
