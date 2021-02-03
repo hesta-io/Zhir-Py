@@ -20,10 +20,6 @@ All of the scripts provide their own help guide. Just run the script with `-h` f
 python3 ./src/clean.py -h
 ```
 
-```
-python3 ./src/tess.py -h
-```
-
 ## Extra
 
 For installing openCv package there is opencv on wheels try this package
